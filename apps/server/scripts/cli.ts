@@ -157,7 +157,7 @@ const buildExeCmd = Command.make(
     }),
 ).pipe(
   Command.withDescription(
-    "Build the server as a Node single-executable (needs a Node 25.7+ host for --build-sea). The binary still resolves native packages from a node_modules tree beside it.",
+    "Build the server as a Node single-executable (use the pinned Node runtime or pass --target to download it). The binary still resolves native packages from a node_modules tree beside it.",
   ),
 );
 

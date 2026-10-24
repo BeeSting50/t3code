@@ -32,7 +32,7 @@ import {
   waitForHttpReady,
 } from "./tunnel.ts";
 
-const TEST_NODE_ENGINE_RANGE = "^22.16 || ^23.11 || >=24.10";
+const TEST_NODE_ENGINE_RANGE = "^22.23.4 || ^24.22.1 || ^26.12.1";
 
 const makeSuccessfulProcess = (stdout: string) => {
   const stdoutStream = Stream.make(new TextEncoder().encode(stdout));

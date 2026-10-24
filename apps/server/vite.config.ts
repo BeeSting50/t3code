@@ -38,7 +38,7 @@ const packExecutable = process.env.T3CODE_PACK_EXE === "1";
 // The Node inside the executable is pinned here rather than taken from the
 // build host, so every archive of a release embeds the same runtime no matter
 // which Node happens to run the build.
-const SEA_NODE_VERSION = "26.8.2";
+const SEA_NODE_VERSION = "26.12.1";
 const SEA_TARGETS = {
   "darwin-arm64": { platform: "darwin", arch: "arm64" },
   "darwin-x64": { platform: "darwin", arch: "x64" },
@@ -51,6 +51,13 @@ const packExecutableTarget = process.env.T3CODE_PACK_EXE_TARGET?.trim();
 if (packExecutableTarget && !Object.hasOwn(SEA_TARGETS, packExecutableTarget)) {
   throw new Error(
     `T3CODE_PACK_EXE_TARGET must be one of ${Object.keys(SEA_TARGETS).join(", ")}, got "${packExecutableTarget}".`,
+  );
+}
+// With no target, tsdown injects into its host Node instead of downloading one.
+// Keep that path on the same security-patched runtime as explicit targets.
+if (packExecutable && !packExecutableTarget && process.versions.node !== SEA_NODE_VERSION) {
+  throw new Error(
+    `Single-executable builds without a target must run with Node ${SEA_NODE_VERSION}. Set VP_NODE_VERSION=${SEA_NODE_VERSION} or pass --target to build-exe.`,
   );
 }
 const packExecutableTargets = packExecutableTarget
